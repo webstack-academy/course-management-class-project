@@ -5,6 +5,7 @@ import HomeComponent from "./components/home";
 console.log('sono la modifica critica')
 
 //CIAO 
+//questo è il mio 
 function App() {
   return (
     <BrowserRouter>
