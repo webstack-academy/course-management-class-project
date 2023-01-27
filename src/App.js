@@ -3,7 +3,6 @@ import './App.css';
 import HomeComponent from "./components/home";
 
 
-console.log('hello world :D')
 
 function App() {
   return (
