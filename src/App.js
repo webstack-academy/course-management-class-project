@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import HomeComponent from "./components/home";
 
+console.log('sono la modifica critica')
 
 
 function App() {
