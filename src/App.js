@@ -4,7 +4,7 @@ import HomeComponent from "./components/home";
 
 console.log('sono la modifica critica')
 
-
+//CIAO 
 function App() {
   return (
     <BrowserRouter>
