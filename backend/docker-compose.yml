@@ -1,0 +1,15 @@
+
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - "./.mysql-data/db:/var/lib/mysql"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ji8lae0i!hee3In
+      MYSQL_DATABASE: webstack
+      MYSQL_USER: webstack
+      MYSQL_PASSWORD: ji8lae0i!hee3In
