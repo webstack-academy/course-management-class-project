@@ -2,7 +2,8 @@ const mysql = require('mysql')
 const bcrypt = require('bcryptjs')
 const db = require('../services/db.js')
 const validator = require('email-validator')
-const crypto = require ('crypto')
+const crypto = require('crypto') 
+
 
 
 exports.register = (req, res) => {
@@ -35,7 +36,7 @@ if (typeof name!=="string" || name.length <= 0 ){
 
 
 
-db.query('SELECT email FROM users WHERE email =?', [email], 
+db.query('select email from users where email =?', [email], 
   async (error, result) => {
     if(error){
         confirm.log(error)
@@ -44,16 +45,16 @@ db.query('SELECT email FROM users WHERE email =?', [email],
         return res.render('register', {msg: 'email is already Taken'})
     }
     const hashedPassword = await bcrypt.hash(password,8)
-    const token = crypto.randomBytes(16).toString('hex')
-
-        db.query('INSERT INTO users (user,email,password,token) VALUES (?,?,?,?)', {name, email, hashedPassword, token},
+    const token = crypto.randomBytes(16).toString('hex') 
+        
+        db.query('INSERT INTO users (user, email, password, token) VALUES (?,?,?,?) ', [name, email, hashedpassword, token], 
         (error, result) => { 
             if(error){
                 console.log(error)
             
             }else{
                 console.log(result)
-                return res.send('register', {msg: 'User Registion Success',token, id: result.insertId })
+                return res.send('register', {msg: 'User Registration Success', token, id: result.insertId}) // result.insertId per ottenere id da INSERT INTO users
             }
         })
 })
