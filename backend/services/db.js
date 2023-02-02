@@ -1,11 +1,13 @@
 const mysql = require('mysql')
 
-const db = mysql.createConnection({
+const config = {
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE
-})
+}
+
+const db = mysql.createConnection(config)
 
 db.connect((err)=> {
     if(err){
@@ -15,7 +17,14 @@ db.connect((err)=> {
     }
 }) 
 
+const createTables = async () => {
+    await db.query(`create table if not exists user (
+            id int primary key auto_increment,
+            email varchar(100) not null,
+            password text not null
+              )`)
+}
 
-
-module.exports = db
+module.exports.createTables = createTables
+module.exports.db = db
 

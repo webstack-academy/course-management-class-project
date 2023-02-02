@@ -1,15 +1,11 @@
 const express = require('express')
-const mysql = require('mysql')
-const doenv = require('dotenv')
+require('dotenv').config()
 const path = require('path')
 const hbs = require('hbs')
+const { createTables } = require("./services/db");
 
 const app = express()
 const port = 3000
-
-doenv.config({
-    path: './.env'
-})
 
 app.use(express.urlencoded({ extended: false}))
 
@@ -25,4 +21,8 @@ app.use('/auth', require('./routes/auth'))
 
 app.listen(port, () => {
     console.log(`Server Started on port: ${port}!`)
+
+    createTables()
+      .then(() => console.log("Tables created"))
+      .catch((err) => console.log('tables creation error: ', err))
 })

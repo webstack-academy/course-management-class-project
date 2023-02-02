@@ -1,6 +1,6 @@
 const mysql = require('mysql')
 const bcrypt = require('bcryptjs')
-const db = require('../services/db.js')
+const { db } = require('../services/db.js')
 const validator = require('email-validator')
 const crypto = require('crypto') 
 
