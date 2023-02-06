@@ -63,22 +63,26 @@ db.query('select email from users where email =?', [email],
 exports.login = async (req, res) => {
     const {email, password} = req.body
 
-    if (typeof email!=="string" || validator.validate(email)){
+    if (typeof email !=="string" || !validator.validate(email)){
         return res.send( {msg: 'empty email'})
+
     }
 
     if (typeof password !=="string" || password.length <= 0 ){
         return res.send( {msg: 'empty password'})
     }
-    const result = await db.query('select * from users where email =?', [email])
+    const result = db.query('select * from users where email =?', [email],async (error, result) => {
+        if (!(await bcrypt.compare(password,result[0].password))){
+            return res.status(401).send( {msg: 'Email or Password incorrect'})
+        
+        }
+        
+        const token = result[0].token
+        return res.send( {msg: 'User Log In Success', token, id: result[0].id})
     
-    if (!(await bcrypt.compare(password,result[0].password))){
-        return res.status(401).send( {msg: 'Email or Password incorrect'})
-    
+    })
+
     }
     
-    const token = result[0].token
-    return res.send('login', {msg: 'User Log In Success', token, id: result[0].id})
-
-}
+  
    
