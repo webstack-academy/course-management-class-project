@@ -77,10 +77,7 @@ exports.login = async (req, res) => {
     
     }
     
-    const token = crypto.randomBytes(16).toString('hex') 
-    
-    db.query('Update users set token =? where id = ? ' , [token, result[0].id])
-    
+    const token = result[0].token
     return res.send('login', {msg: 'User Log In Success', token, id: result[0].id})
 
 }
