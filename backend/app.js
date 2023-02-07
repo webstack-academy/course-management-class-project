@@ -3,9 +3,22 @@ require('dotenv').config()
 const path = require('path')
 const hbs = require('hbs')
 const { createTables } = require("./services/db");
+const cors = require ('cors')
 
 const app = express()
 const port = 3000
+
+app.use(cors({
+  origin: '*',
+  methods: ['POST']
+}));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'localhost:3001')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, enctype')
+
+  next()
+})
 
 app.use(express.urlencoded({ extended: false}))
 

@@ -18,7 +18,6 @@ class HomeComponent extends React.Component {
   }
 
   login = () => {
-  alert(this.state.datoEmail)
 
     const request = new XMLHttpRequest()
     
@@ -33,7 +32,7 @@ class HomeComponent extends React.Component {
 
     }
 
-    request.open('POST', 'login01')
+    request.open('POST', 'localhost:3000/auth/login')
     request.setRequestHeader('Content-Type', 'application/json')
     request.send(JSON.stringify({
       email: this.state.datoEmail,
@@ -42,7 +41,6 @@ class HomeComponent extends React.Component {
   }
 
   registrati = () => {
-    alert(this.state.datoEmail)
     const request = new XMLHttpRequest()
     request.onreadystatechange = function () {
       if (this.readyState !== 4) return;
@@ -53,7 +51,7 @@ class HomeComponent extends React.Component {
       };
 
     }
-    request.open('POST', 'login01')
+    request.open('POST', 'localhost:3000/auth/register')
     request.setRequestHeader('Content-Type', 'application/json')
     request.send(JSON.stringify({
       email: this.state.datoEmail,
