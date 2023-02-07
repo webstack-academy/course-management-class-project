@@ -20,6 +20,7 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 
 const location = path.join(__dirname, './public')
