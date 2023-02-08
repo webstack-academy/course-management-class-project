@@ -20,7 +20,7 @@ db.connect((err)=> {
 const createTables = async () => {
     await db.query(`create table if not exists users (
             id int primary key auto_increment,
-            name text not null,
+            username text not null,
             email varchar(100) not null,
             password text not null,
             token text not null

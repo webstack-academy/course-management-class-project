@@ -12,24 +12,20 @@ exports.register = (req, res) => {
     const password = req.body.password
     const confirm_password = req.body.confirm_password
 */
-const {name, email, password, confirm_password} = req.body
+const {username, email, password, confirm_password} = req.body
 console.log(req.body)
 console.log(typeof password)
 
 if (typeof password !=="string" || password.length <= 0 ){
     return res.send( {msg: 'empty password'})
-}
-
-if(password !== confirm_password){
-    return res.send( {msg: 'password do not match'})
 } 
 
 if (typeof email!=="string" || !validator.validate(email)){
     return res.send( {msg: 'empty email'})
 }
 
-if (typeof name!=="string" || name.length <= 0 ){
-    return res.send( {msg: 'empty name'})
+if (typeof username!=="string" || username.length <= 0 ){
+    return res.send( {msg: 'empty username'})
 }
 
 
@@ -45,7 +41,7 @@ db.query('select email from users where email =?', [email],
     const hashedPassword = await bcrypt.hash(password,8)
     const token = crypto.randomBytes(16).toString('hex') 
         
-        db.query('INSERT INTO users (name, email, password, token) VALUES (?,?,?,?) ', [name, email, hashedPassword, token], 
+        db.query('INSERT INTO users (username, email, password, token) VALUES (?,?,?,?) ', [username, email, hashedPassword, token], 
         (error, result) => { 
             if(error){
                 console.log(error)
