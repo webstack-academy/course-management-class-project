@@ -16,16 +16,16 @@ const {username, email, password, confirm_password} = req.body
 console.log(req.body)
 console.log(typeof password)
 
-if (typeof password !=="string" || password.length <= 0 ){
-    return res.send( {msg: 'empty password'})
+if (typeof password !=="string" || password.length < 8 ){
+    return res.send( {msg: 'empty password or too short'})
 } 
 
 if (typeof email!=="string" || !validator.validate(email)){
-    return res.send( {msg: 'empty email'})
+    return res.send( {msg: 'empty email or invalid email'})
 }
 
-if (typeof username!=="string" || username.length <= 0 ){
-    return res.send( {msg: 'empty username'})
+if (typeof username!=="string" || username.length <= 3 || username.length >= 13  ){
+    return res.send( {msg: 'empty username or not between 4 and 12'})
 }
 
 
