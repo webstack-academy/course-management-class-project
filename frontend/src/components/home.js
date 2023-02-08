@@ -17,47 +17,43 @@ class HomeComponent extends React.Component {
     }
   }
 
-  login = () => {
-
-    const request = new XMLHttpRequest()
-    
-    request.onreadystatechange = function(){
-      if(this.readyState !== 4){
-        return
+  login = async () => {
+    const data = await fetch('http://localhost:3000/auth/login', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({
+        email: this.state.datoEmail,
+        password: this.state.datoPassword
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       }
-      if(this.status === 200){
-        const data = JSON.parse(this.responseText)
-        window.localStorage.setItem('token', data.token)
-      }
+    })
 
-    }
+    const { token } = await data.json()
 
-    request.open('POST', 'localhost:3000/auth/login')
-    request.setRequestHeader('Content-Type', 'application/json')
-    request.send(JSON.stringify({
-      email: this.state.datoEmail,
-      password: this.state.datoPassword
-    }))
+    window.localStorage.setItem('token', token)
   }
 
-  registrati = () => {
-    const request = new XMLHttpRequest()
-    request.onreadystatechange = function () {
-      if (this.readyState !== 4) return;
+  registrati = async () => {
+    const data = await fetch('http://localhost:3000/auth/register', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({
+          email: this.state.datoEmail,
+          password: this.state.datoPassword,
+          confirm_password: this.state.datoPassword,
+          username: this.state.datoUsername,
+          name: 'test'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
 
-      if (this.status === 200) {
-        const data = JSON.parse(this.responseText)
-        window.localStorage.setItem('token',data.token)
-      };
+    const { token } = await data.json()
 
-    }
-    request.open('POST', 'localhost:3000/auth/register')
-    request.setRequestHeader('Content-Type', 'application/json')
-    request.send(JSON.stringify({
-      email: this.state.datoEmail,
-      password: this.state.datoPassword,
-      username: this.state.datoUsername
-    }))
+    localStorage.setItem('token', token)
   }
 
   render() {
