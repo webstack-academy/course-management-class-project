@@ -36,24 +36,34 @@ class HomeComponent extends React.Component {
   }
 
   registrati = async () => {
-    const data = await fetch('http://localhost:3000/auth/register', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-          email: this.state.datoEmail,
-          password: this.state.datoPassword,
-          confirm_password: this.state.datoPassword,
-          username: this.state.datoUsername,
-          name: 'test'
-      }),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const data = await fetch('http://localhost:3000/auth/register', {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+            email: this.state.datoEmail,
+            password: this.state.datoPassword,
+            confirm_password: this.state.datoPassword,
+            username: this.state.datoUsername,
+            name: 'test'
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const parsedResponse = await data.json()
+
+      if (data.status !== 200) {
+        alert(parsedResponse.msg)
+      } else {
+        localStorage.setItem('token', parsedResponse.token)
       }
-    })
 
-    const { token } = await data.json()
+  } catch (e) {
+    console.log(e)
+  }
 
-    localStorage.setItem('token', token)
   }
 
   render() {
