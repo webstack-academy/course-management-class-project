@@ -17,15 +17,18 @@ console.log(req.body)
 console.log(typeof password)
 
 if (typeof password !=="string" || password.length < 8 ){
-    return res.send( {msg: 'empty password or too short'})
+    /*return res.send( {msg: 'empty password or too short'})*/
+    return res.status(400).send( {msg: 'empty password or too short'})
 } 
 
 if (typeof email!=="string" || !validator.validate(email)){
-    return res.send( {msg: 'empty email or invalid email'})
+    /*return res.send( {msg: 'empty email or invalid email'})*/
+    return res.status(400).send( {msg: 'empty email or invalid email'})
 }
 
 if (typeof username!=="string" || username.length <= 3 || username.length >= 13  ){
-    return res.send( {msg: 'empty username or not between 4 and 12'})
+    /*return res.send( {msg: 'empty username or not between 4 and 12'})*/
+    return res.status(400).send( {msg: 'empty username or not between 4 and 12'})
 }
 
 
@@ -60,12 +63,14 @@ exports.login = async (req, res) => {
     const {email, password} = req.body
 
     if (typeof email !=="string" || !validator.validate(email)){
-        return res.send( {msg: 'empty email'})
+        /*return res.send( {msg: 'empty email'})*/
+        return res.status(400).send( {msg: 'empty email'})
 
     }
 
     if (typeof password !=="string" || password.length <= 0 ){
-        return res.send( {msg: 'empty password'})
+        /*return res.send( {msg: 'empty password'})*/
+        return res.status(400).send( {msg: 'empty password'})
     }
     const result = db.query('select * from users where email =?', [email],async (error, result) => {
         if (!(await bcrypt.compare(password,result[0].password))){
