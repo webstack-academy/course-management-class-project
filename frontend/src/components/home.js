@@ -37,6 +37,7 @@ class HomeComponent extends React.Component {
       alert(parsedResponse.msg)
     } else {
       localStorage.setItem('token', parsedResponse.token)
+      this.handleCloseLoginModal()
     }
 
   } catch (e){
@@ -67,6 +68,7 @@ class HomeComponent extends React.Component {
         alert(parsedResponse.msg)
       } else {
         localStorage.setItem('token', parsedResponse.token)
+        this.handleCloseRegistrationModal()
       }
 
   } catch (e) {
@@ -74,14 +76,14 @@ class HomeComponent extends React.Component {
   }
 
   }
+  
+  handleShowLoginModal = () => this.setState({ showLoginModal: true })
+  handleCloseLoginModal = () => this.setState({ showLoginModal: false })
 
+  handleCloseRegistrationModal = () => this.setState({ showRegistrationModal: false })
+  handleShowRegistrationModal = () => this.setState({ showRegistrationModal: true })
+  
   render() {
-    const handleShowLoginModal = () => this.setState({ showLoginModal: true })
-    const handleCloseLoginModal = () => this.setState({ showLoginModal: false })
-
-    const handleCloseRegistrationModal = () => this.setState({ showRegistrationModal: false })
-    const handleShowRegistrationModal = () => this.setState({ showRegistrationModal: true })
-
     return (
       <div className="container">
 
@@ -93,15 +95,15 @@ class HomeComponent extends React.Component {
 
           <div className="col-4 mx-auto text-end">
 
-            <Button variant="primary" onClick={handleShowLoginModal}>Accedi</Button>
-            <Button variant="success" onClick={handleShowRegistrationModal} style={{ marginLeft:'4px',color: 'black', backgroundColor: 'green' }}>
+            <Button variant="primary" onClick={this.handleShowLoginModal}>Accedi</Button>
+            <Button variant="success" onClick={this.handleShowRegistrationModal} style={{ marginLeft:'4px',color: 'black', backgroundColor: 'green' }}>
               Registrati
             </Button>
 
             {/**
              Login Modal Section
              */}
-            <Modal show={this.state.showLoginModal} onHide={handleCloseLoginModal}>
+            <Modal show={this.state.showLoginModal} onHide={this.handleCloseLoginModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Accedi</Modal.Title>
               </Modal.Header>
@@ -146,7 +148,7 @@ class HomeComponent extends React.Component {
             {/**
              Registration Modal Section
              */}
-            <Modal show={this.state.showRegistrationModal} onHide={handleCloseRegistrationModal}>
+            <Modal show={this.state.showRegistrationModal} onHide={this.handleCloseRegistrationModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Registrazione</Modal.Title>
               </Modal.Header>

@@ -39,7 +39,7 @@ db.query('select email from users where email =?', [email],
         console.log(error)
     }
     if(result.length >0){
-        return res.send( {msg: 'email is already Taken'})
+        return res.status(400).send( {msg: 'email is already Taken'})
     }
     const hashedPassword = await bcrypt.hash(password,8)
     const token = crypto.randomBytes(16).toString('hex') 
