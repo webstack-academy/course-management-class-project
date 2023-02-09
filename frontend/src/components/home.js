@@ -24,6 +24,16 @@ class HomeComponent extends React.Component {
     this.setState({token})
   }
 
+  componentDidMount(){
+    const username = localStorage.getItem('username')
+    const token = localStorage.getItem('token')
+    if(username && token){
+        this.set_token(token)
+        this.setState({username})
+    } 
+  }
+
+
   login = async () => {
     try{
     const data = await fetch('http://localhost:3000/auth/login', {
@@ -45,6 +55,7 @@ class HomeComponent extends React.Component {
     } else {
       this.set_token(parsedResponse.token)
       this.setState({username : parsedResponse.username})
+      localStorage.setItem('username', parsedResponse.username)
       this.handleCloseLoginModal()
     }
 
@@ -63,7 +74,6 @@ class HomeComponent extends React.Component {
             password: this.state.datoPassword,
             confirm_password: this.state.datoPassword,
             username: this.state.datoUsername,
-            name: 'test'
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -77,6 +87,7 @@ class HomeComponent extends React.Component {
       } else {
         this.set_token(parsedResponse.token)
         this.setState({username : parsedResponse.username})
+        localStorage.setItem('username', parsedResponse.username)
         this.handleCloseRegistrationModal()
       }
 
