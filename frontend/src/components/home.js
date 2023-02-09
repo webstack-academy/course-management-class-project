@@ -18,6 +18,7 @@ class HomeComponent extends React.Component {
   }
 
   login = async () => {
+    try{
     const data = await fetch('http://localhost:3000/auth/login', {
       method: 'POST',
       mode: 'cors',
@@ -30,9 +31,17 @@ class HomeComponent extends React.Component {
       }
     })
 
-    const { token } = await data.json()
+    const parsedResponse = await data.json()
 
-    window.localStorage.setItem('token', token)
+    if (data.status !== 200) {
+      alert(parsedResponse.msg)
+    } else {
+      localStorage.setItem('token', parsedResponse.token)
+    }
+
+  } catch (e){
+      console.log(e)
+  }
   }
 
   registrati = async () => {
