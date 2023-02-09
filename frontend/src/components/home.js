@@ -14,7 +14,14 @@ class HomeComponent extends React.Component {
       datoEmail: '',
       datoPassword: '',
       datoUsername:'',
+      token: '',
+      username: '',
     }
+  }
+
+  set_token(token){
+    localStorage.setItem('token',token)
+    this.setState({token})
   }
 
   login = async () => {
@@ -36,7 +43,8 @@ class HomeComponent extends React.Component {
     if (data.status !== 200) {
       alert(parsedResponse.msg)
     } else {
-      localStorage.setItem('token', parsedResponse.token)
+      this.set_token(parsedResponse.token)
+      this.setState({username : parsedResponse.username})
       this.handleCloseLoginModal()
     }
 
@@ -67,7 +75,8 @@ class HomeComponent extends React.Component {
       if (data.status !== 200) {
         alert(parsedResponse.msg)
       } else {
-        localStorage.setItem('token', parsedResponse.token)
+        this.set_token(parsedResponse.token)
+        this.setState({username : parsedResponse.username})
         this.handleCloseRegistrationModal()
       }
 
@@ -77,6 +86,8 @@ class HomeComponent extends React.Component {
 
   }
   
+
+
   handleShowLoginModal = () => this.setState({ showLoginModal: true })
   handleCloseLoginModal = () => this.setState({ showLoginModal: false })
 
@@ -94,11 +105,17 @@ class HomeComponent extends React.Component {
           </div>
 
           <div className="col-4 mx-auto text-end">
-
-            <Button variant="primary" onClick={this.handleShowLoginModal}>Accedi</Button>
-            <Button variant="success" onClick={this.handleShowRegistrationModal} style={{ marginLeft:'4px',color: 'black', backgroundColor: 'green' }}>
-              Registrati
-            </Button>
+            {
+              !this.state.token?(
+              <div> 
+                  <Button variant="primary" onClick={this.handleShowLoginModal}>Accedi</Button>
+                  <Button variant="success" onClick={this.handleShowRegistrationModal} style={{ marginLeft:'4px',color: 'black', backgroundColor: 'green' }}>
+                      Registrati
+                  </Button>
+              </div>
+              ):(<p>{this.state.username}</p>)
+          
+            }
 
             {/**
              Login Modal Section
