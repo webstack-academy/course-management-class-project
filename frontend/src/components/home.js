@@ -17,6 +17,8 @@ class HomeComponent extends React.Component {
       token: '',
       username: '',
       createcourse: false,
+      datoname: '',
+      textdescription: '',
     }
   }
 
@@ -104,7 +106,7 @@ class HomeComponent extends React.Component {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
-            name: this.state.datoUsername,
+            name: this.state.datoname,
             description : this.state.textdescription,
         })
       })
@@ -248,39 +250,45 @@ class HomeComponent extends React.Component {
              */}
              <Modal show={this.state.createcourse} onHide={this.handleCloseCreateCourseModal}>
               <Modal.Header closeButton>
-                <Modal.Title>Crea corso</Modal.Title>
+                <Modal.Title>Create course</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Test</Form.Label>
+                    <Form.Label>Course Name</Form.Label>
                     <Form.Control
-                      type="email"
-                      placeholder="name@example.com"
+                      type="text"
+                      placeholder="Title of the course"
                       autoFocus
                       onInput = { evt => this.setState({
-                        datoEmail: evt.target.value
+                        datoname: evt.target.value
                       })}
                     />
                   </Form.Group>
                   <Form.Group
-                    className="mb-3"
+                    className="mb-4"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type='password'
-                      placeholder='password'
-                      onInput={ evt => this.setState({
-                        datoPassword: evt.target.value
-                      })}
+                    <Form.Label>
+                     Course Description:
+                    </Form.Label>
+                    <textarea 
+                          type='text'
+                          name="postContent" 
+                          rows={10} 
+                          cols={60} 
+                          defaultValue='Please enter a description of the course, not more than 300 words'
+                          onInput={ evt => this.setState({
+                            description: evt.target.value
+                          })}
                     />
+                    
                   </Form.Group>
                 </Form>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={ this.creazione_corso} >
-                  Crea  
+                  Create 
                 </Button>
               </Modal.Footer>
             </Modal>
