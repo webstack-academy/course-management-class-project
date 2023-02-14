@@ -6,6 +6,7 @@ const crypto = require('crypto')
 
 exports.register = (req, res) => {
     console.log(req.body)
+    
  /*
     const name = req.body.name
     const email = req.body.email
