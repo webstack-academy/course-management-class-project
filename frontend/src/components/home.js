@@ -16,6 +16,7 @@ class HomeComponent extends React.Component {
       datoUsername:'',
       token: '',
       username: '',
+      createcourse: false,
     }
   }
 
@@ -97,13 +98,29 @@ class HomeComponent extends React.Component {
 
   }
   
-
+  creazione_corso = async () => {
+    try{
+      const data = await fetch('http://localhost:3000/courses/create/' ,{
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+            name: this.state.datoUsername,
+            description : this.state.textdescription,
+        })
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  
 
   handleShowLoginModal = () => this.setState({ showLoginModal: true })
   handleCloseLoginModal = () => this.setState({ showLoginModal: false })
+  handleCloseCreateCourseModal = () => this.setState({ createcourse: false })
 
   handleCloseRegistrationModal = () => this.setState({ showRegistrationModal: false })
   handleShowRegistrationModal = () => this.setState({ showRegistrationModal: true })
+  handleShowCreateCourseModal = () => this.setState({ createcourse: true })
   
   render() {
     return (
@@ -112,7 +129,7 @@ class HomeComponent extends React.Component {
         <div className="row py-3">
 
           <div className="col-4">
-            <Button variant='primary'>Crea corso</Button>
+            <Button variant='primary'  onClick={this.handleShowCreateCourseModal}>Crea corso</Button>
           </div>
 
           <div className="col-4 mx-auto text-end">
@@ -227,8 +244,46 @@ class HomeComponent extends React.Component {
               </Modal.Footer>
             </Modal>
             {/**
-             ./Registration Modal Section
+             ./Course creation
              */}
+             <Modal show={this.state.createcourse} onHide={this.handleCloseCreateCourseModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Crea corso</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Test</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="name@example.com"
+                      autoFocus
+                      onInput = { evt => this.setState({
+                        datoEmail: evt.target.value
+                      })}
+                    />
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type='password'
+                      placeholder='password'
+                      onInput={ evt => this.setState({
+                        datoPassword: evt.target.value
+                      })}
+                    />
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="primary" onClick={ this.creazione_corso} >
+                  Crea  
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         
         </div>
