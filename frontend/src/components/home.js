@@ -14,8 +14,25 @@ class HomeComponent extends React.Component {
       datoEmail: '',
       datoPassword: '',
       datoUsername:'',
+      token: '',
+      username: '',
     }
   }
+
+  set_token(token){
+    localStorage.setItem('token',token)
+    this.setState({token})
+  }
+
+  componentDidMount(){
+    const username = localStorage.getItem('username')
+    const token = localStorage.getItem('token')
+    if(username && token){
+        this.set_token(token)
+        this.setState({username})
+    } 
+  }
+
 
   login = async () => {
     try{
@@ -36,7 +53,10 @@ class HomeComponent extends React.Component {
     if (data.status !== 200) {
       alert(parsedResponse.msg)
     } else {
-      localStorage.setItem('token', parsedResponse.token)
+      this.set_token(parsedResponse.token)
+      this.setState({username : parsedResponse.username})
+      localStorage.setItem('username', parsedResponse.username)
+      this.handleCloseLoginModal()
     }
 
   } catch (e){
@@ -54,7 +74,6 @@ class HomeComponent extends React.Component {
             password: this.state.datoPassword,
             confirm_password: this.state.datoPassword,
             username: this.state.datoUsername,
-            name: 'test'
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -66,7 +85,10 @@ class HomeComponent extends React.Component {
       if (data.status !== 200) {
         alert(parsedResponse.msg)
       } else {
-        localStorage.setItem('token', parsedResponse.token)
+        this.set_token(parsedResponse.token)
+        this.setState({username : parsedResponse.username})
+        localStorage.setItem('username', parsedResponse.username)
+        this.handleCloseRegistrationModal()
       }
 
   } catch (e) {
@@ -74,14 +96,16 @@ class HomeComponent extends React.Component {
   }
 
   }
+  
 
+
+  handleShowLoginModal = () => this.setState({ showLoginModal: true })
+  handleCloseLoginModal = () => this.setState({ showLoginModal: false })
+
+  handleCloseRegistrationModal = () => this.setState({ showRegistrationModal: false })
+  handleShowRegistrationModal = () => this.setState({ showRegistrationModal: true })
+  
   render() {
-    const handleShowLoginModal = () => this.setState({ showLoginModal: true })
-    const handleCloseLoginModal = () => this.setState({ showLoginModal: false })
-
-    const handleCloseRegistrationModal = () => this.setState({ showRegistrationModal: false })
-    const handleShowRegistrationModal = () => this.setState({ showRegistrationModal: true })
-
     return (
       <div className="container">
 
@@ -92,16 +116,22 @@ class HomeComponent extends React.Component {
           </div>
 
           <div className="col-4 mx-auto text-end">
-
-            <Button variant="primary" onClick={handleShowLoginModal}>Accedi</Button>
-            <Button variant="success" onClick={handleShowRegistrationModal} style={{ marginLeft:'4px',color: 'black', backgroundColor: 'green' }}>
-              Registrati
-            </Button>
+            {
+              !this.state.token?(
+              <div> 
+                  <Button variant="primary" onClick={this.handleShowLoginModal}>Accedi</Button>
+                  <Button variant="success" onClick={this.handleShowRegistrationModal} style={{ marginLeft:'4px',color: 'black', backgroundColor: 'green' }}>
+                      Registrati
+                  </Button>
+              </div>
+              ):(<p>{this.state.username}</p>)
+          
+            }
 
             {/**
              Login Modal Section
              */}
-            <Modal show={this.state.showLoginModal} onHide={handleCloseLoginModal}>
+            <Modal show={this.state.showLoginModal} onHide={this.handleCloseLoginModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Accedi</Modal.Title>
               </Modal.Header>
@@ -146,7 +176,7 @@ class HomeComponent extends React.Component {
             {/**
              Registration Modal Section
              */}
-            <Modal show={this.state.showRegistrationModal} onHide={handleCloseRegistrationModal}>
+            <Modal show={this.state.showRegistrationModal} onHide={this.handleCloseRegistrationModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Registrazione</Modal.Title>
               </Modal.Header>
