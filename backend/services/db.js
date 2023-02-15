@@ -25,7 +25,13 @@ const createTables = async () => {
             password text not null,
             token text not null
               )`)
+await db.query(`create table if not exists courses (
+    id int primary key auto_increment not null,
+    name varchar(60) not null,
+    description varchar(300) , 
+    image varchar(200) , creator_id int not null )`)
 }
+
 
 module.exports.createTables = createTables
 module.exports.db = db

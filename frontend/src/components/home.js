@@ -16,6 +16,9 @@ class HomeComponent extends React.Component {
       datoUsername:'',
       token: '',
       username: '',
+      createcourse: false,
+      datoname: '',
+      textdescription: '',
     }
   }
 
@@ -97,13 +100,29 @@ class HomeComponent extends React.Component {
 
   }
   
-
+  creazione_corso = async () => {
+    try{
+      const data = await fetch('http://localhost:3000/courses/create/' ,{
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+            name: this.state.datoname,
+            description : this.state.textdescription,
+        })
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  
 
   handleShowLoginModal = () => this.setState({ showLoginModal: true })
   handleCloseLoginModal = () => this.setState({ showLoginModal: false })
+  handleCloseCreateCourseModal = () => this.setState({ createcourse: false })
 
   handleCloseRegistrationModal = () => this.setState({ showRegistrationModal: false })
   handleShowRegistrationModal = () => this.setState({ showRegistrationModal: true })
+  handleShowCreateCourseModal = () => this.setState({ createcourse: true })
   
   render() {
     return (
@@ -112,7 +131,7 @@ class HomeComponent extends React.Component {
         <div className="row py-3">
 
           <div className="col-4">
-            <Button variant='primary'>Crea corso</Button>
+            <Button variant='primary'  onClick={this.handleShowCreateCourseModal}>Crea corso</Button>
           </div>
 
           <div className="col-4 mx-auto text-end">
@@ -227,8 +246,52 @@ class HomeComponent extends React.Component {
               </Modal.Footer>
             </Modal>
             {/**
-             ./Registration Modal Section
+             ./Course creation
              */}
+             <Modal show={this.state.createcourse} onHide={this.handleCloseCreateCourseModal}>
+              <Modal.Header closeButton>
+                <Modal.Title>Create course</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Course Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Title of the course"
+                      autoFocus
+                      onInput = { evt => this.setState({
+                        datoname: evt.target.value
+                      })}
+                    />
+                  </Form.Group>
+                  <Form.Group
+                    className="mb-4"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>
+                     Course Description:
+                    </Form.Label>
+                    <textarea 
+                          type='text'
+                          name="postContent" 
+                          rows={10} 
+                          cols={60} 
+                          defaultValue='Please enter a description of the course, not more than 300 words'
+                          onInput={ evt => this.setState({
+                            description: evt.target.value
+                          })}
+                    />
+                    
+                  </Form.Group>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="primary" onClick={ this.creazione_corso} >
+                  Create 
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         
         </div>
