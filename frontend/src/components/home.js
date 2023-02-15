@@ -272,17 +272,21 @@ class HomeComponent extends React.Component {
                     <Form.Label>
                      Course Description:
                     </Form.Label>
+                    {/* <Form.Control as="textarea" rows={5} 
+                    onInput={ evt => this.setState({
+                            description: evt.target.value
+                          })}/> */}
+
                     <textarea 
                           type='text'
                           name="postContent" 
-                          rows={10} 
-                          cols={60} 
-                          defaultValue='Please enter a description of the course, not more than 300 words'
+                          rows={5}
+                          className="form-control" 
+                          placeholder='Please enter a description of the course, not more than 300 words'
                           onInput={ evt => this.setState({
                             description: evt.target.value
                           })}
-                    />
-                    
+                    />                    
                   </Form.Group>
                 </Form>
               </Modal.Body>
