@@ -11,7 +11,7 @@ exports.createCourse = (req, res) => {
     return res.status(400).send({ message: 'Description must be a string or below 301 characters' })
   }
 
-  db.query('INSERT INTO courses (title, description) VALUES (?,?)', [title, description], (err, result) => {
+  db.query('INSERT INTO courses (name, description, creator_id) VALUES (?,?,?)', [title, description, res.locals.user], (err, result) => {
     if (err) {
       console.log(err)
     }

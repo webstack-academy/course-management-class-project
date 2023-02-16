@@ -33,7 +33,8 @@ const createTables = async () => {
       id int primary key auto_increment not null,
       name varchar(60) not null,
       description varchar(300) , 
-      image varchar(200) , creator_id int not null 
+      image varchar(200) , 
+      creator_id int not null 
       )`
   )
 }

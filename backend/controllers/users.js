@@ -52,10 +52,11 @@ db.query('select email from users where email =?', [email],
             
             }else{
                 console.log(result)
-                return res.send( {msg: 'User Registration Success', token, id: result.insertId,username}) // result.insertId per ottenere id da INSERT INTO users
+                return res.send( {msg: 'User Registration Success', token: result.insertId + '_' + token, id: result.insertId,username}) // result.insertId per ottenere id da INSERT INTO users
             }
         })
 })
+
 
 }
 
@@ -80,7 +81,7 @@ exports.login = async (req, res) => {
         }
         
         const token = result[0].token
-        return res.send( {msg: 'User Log In Success', token, id: result[0].id, username: result[0].username})
+        return res.send( {msg: 'User Log In Success', token: result[0].id + '_' + token, id: result[0].id, username: result[0].username})
     
     })
 
