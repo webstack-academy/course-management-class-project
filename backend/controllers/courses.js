@@ -1,3 +1,5 @@
+const { db } = require('../services/db')
+
 exports.createCourse = (req, res) => {
   const { title, description } = req.body;
   
@@ -9,8 +11,13 @@ exports.createCourse = (req, res) => {
     return res.status(400).send({ message: 'Description must be a string or below 301 characters' })
   }
 
-}
-
-exports.create = (req, res) => {
-    return res.send('connected')
+  db.query('INSERT INTO courses (title, description) VALUES (?,?)', [title, description], (err, result) => {
+    if (err) {
+      console.log(err)
+    }
+    else {
+      console.log(result)
+      return res.status(201).send({ msg: 'Course created successfully' })
+    }
+  })
 }

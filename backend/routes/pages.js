@@ -13,6 +13,10 @@ router.get('/profile', (req, res) => {
     res.render('profile')
 })
 
+router.get('/create', (req, res) => {
+    res.render('createCourse')
+})
+
 router.get('/home', (req, res) => {
     res.render('home')
 })
