@@ -14,10 +14,21 @@ exports.createCourse = (req, res) => {
   db.query('INSERT INTO courses (name, description, creator_id) VALUES (?,?,?)', [title, description, res.locals.user], (err, result) => {
     if (err) {
       console.log(err)
+      res.status(500).send('Internal Server Error')
     }
     else {
       console.log(result)
       return res.status(201).send({ msg: 'Course created successfully' })
     }
   })
+}
+
+exports.getCourses = async (req, res) => {
+  try { 
+    res.send({ courses: await db.query('SELECT * FROM courses') })
+  } catch (e) {
+    console.log(e)
+    
+    res.status(500).send('Internal Server Error')
+  }
 }
