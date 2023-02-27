@@ -2,6 +2,7 @@ const { db } = require('../services/db.js')
 const crypto = require('crypto')
 
 
+
 exports.verifyAuth = (req, res, next) => {
   let token = req.headers.authorization
   if (typeof token !== 'string') {
@@ -32,7 +33,7 @@ exports.verifyAuth = (req, res, next) => {
         })
       }
 
-      if (userToken.length === result[0].token.length && crypto.timingSafeEqual(userToken, result[0].token)) {
+      if (userToken.length === result[0].token.length && crypto.timingSafeEqual(Buffer.from(userToken), Buffer.from(result[0].token))) {
         res.locals.user = userId
         next()        
       }

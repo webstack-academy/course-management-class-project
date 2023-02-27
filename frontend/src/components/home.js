@@ -19,6 +19,7 @@ class HomeComponent extends React.Component {
       createcourse: false,
       datoname: '',
       textdescription: '',
+      courses_list: []
     }
   }
 
@@ -106,13 +107,20 @@ class HomeComponent extends React.Component {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
-            name: this.state.datoname,
-            description : this.state.textdescription,
-        })
+            title: this.state.datoname,
+            description : this.state.description,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+ this.state.token
+        }
+      
       })
+      this.handleCloseCreateCourseModal()
     } catch (e) {
       console.log(e)
     }
+
   }
   
 
@@ -274,10 +282,8 @@ class HomeComponent extends React.Component {
                     </Form.Label>
                     <textarea 
                           type='text'
-                          name="postContent" 
-                          rows={10} 
-                          cols={60} 
-                          defaultValue='Please enter a description of the course, not more than 300 words'
+                          name="postContent"
+                          placeholder='Please enter a description of the course, not more than 300 words'
                           onInput={ evt => this.setState({
                             description: evt.target.value
                           })}
