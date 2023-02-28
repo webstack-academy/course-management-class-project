@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+.course_container{
+  margin-top: 60px;
+}
+.course{
+  font-size: 25px;
+}
